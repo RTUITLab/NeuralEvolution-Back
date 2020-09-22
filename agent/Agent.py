@@ -10,6 +10,8 @@ UPDATE_ACTION_MODEL = 4
 UPDATE_TRAIN_MODEL = 1_000
 GAMMA_DECAY = 1e-3
 GAMMA_MINIMUM = 1e-3
+
+
 class Agent:
     def __init__(self, environment_shape, actions_number):
         self.replay_buffer = ReplayBuffer(MEMORY_LENGTH, environment_shape)
@@ -19,22 +21,35 @@ class Agent:
         self.actions_number = actions_number
         self.gamma = 0.9
         # Being trained really often
-        self.action_model = Agent.Create_model(environment_shape, actions_number)
+        self.action_model = self.create_model(environment_shape, actions_number)
 
         # Used to train other model. Being updated rarely
-        self.train_model = Agent.Create_model(environment_shape, actions_number)
+        self.train_model = self.create_model(environment_shape, actions_number)
         self.train_model.set_weights(self.action_model.get_weights())
 
     @staticmethod
-    def Create_model(environment_shape, actions_number, learning_rate=0.001):
+    def create_model(environment_shape, actions_number, learning_rate=0.001):
+        '''
+        Create and returns the actor model.
+            Dense(64)
+            Dense(64)
+            Dense(actions_number, activation="linear"))
+
+        Args:
+
+        environment_shape: Dimension of data from environment.
+
+        actions_number: Count of available actions.
+        '''
         model = keras.models.Sequential()
-        model.add(keras.layers.Dense(64, input_shape=environment_shape))
-        model.add(keras.layers.Dense(64))
+        model.add(keras.layers.InputLayer(environment_shape))
+        model.add(keras.layers.Dense(64, activation='relu'))
+        model.add(keras.layers.Dense(64, activation='relu'))
         model.add(keras.layers.Dense(actions_number, activation="linear"))
         model.compile(loss="mse", optimizer=keras.optimizers.Adam(lr=learning_rate))
         return model
 
-    def Act(self, environment_state):
+    def act(self, environment_state):
         self.previous_state = environment_state
         if self.gamma > np.random.rand():
             self.previous_action = tf.math.argmax(self.action_model(environment_state))
@@ -42,10 +57,10 @@ class Agent:
             self.previous_action = np.random.randint(0, self.actions_number)
         return self.previous_action
 
-    def Train(self):
+    def train(self):
         if self.iteration_counter % UPDATE_ACTION_MODEL == 0:
             if BATCH_SIZE >= self.replay_buffer.real_length:
-                expirience = self.replay_buffer.GetExpirience(BATCH_SIZE)
+                expirience = self.replay_buffer.getExpirience(BATCH_SIZE)
                 # continue training
 
             if self.iteration_counter % UPDATE_TRAIN_MODEL == 0:
@@ -54,5 +69,5 @@ class Agent:
         if self.gamma > GAMMA_MINIMUM:
             self.gamma -= GAMMA_DECAY
 
-    def Remember(self, next_state, reward, done_flag):
-        self.replay_buffer.Remember(self.previous_state, next_state, self.previous_action, reward, done_flag)
+    def remember(self, next_state, reward, done_flag):
+        self.replay_buffer.remember(self.previous_state, next_state, self.previous_action, reward, done_flag)

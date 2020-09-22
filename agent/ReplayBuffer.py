@@ -15,7 +15,7 @@ class ReplayBuffer:
         self.done_flags = np.empty(length, dtype=np.bool)
         pass
 
-    def Remember(self, current_state, future_state, action, reward, done_flag):
+    def remember(self, current_state, future_state, action, reward, done_flag):
         self.current_states[self.pointer] = current_state
         self.future_states[self.pointer] = future_state
         self.actions[self.pointer] = action
@@ -24,7 +24,7 @@ class ReplayBuffer:
         self.real_length += int(self.real_length < ReplayBuffer.max_length)
         self.pointer = (self.pointer + 1) % ReplayBuffer.max_length
 
-    def GetExpirience(self, batch_size):
+    def getExpirience(self, batch_size):
         batch = np.random.choice(self.real_length, batch_size, replace=False)
         current_states = self.current_states[batch]
         future_states = self.future_states[batch]
