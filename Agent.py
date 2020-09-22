@@ -10,7 +10,7 @@ UPDATE_ACTION_MODEL = 4
 UPDATE_TRAIN_MODEL = 1_000
 class Agent:
     def __init__(self, environment_shape, actions_number):
-        self.replay_buffer = ReplayBuffer(MEMORY_LENGTH)
+        self.replay_buffer = ReplayBuffer(MEMORY_LENGTH, environment_shape)
         self.previous_state = None
         self.previous_action = None
         self.iteration_counter = 0
