@@ -8,13 +8,16 @@ MEMORY_LENGTH = 10_000
 BATCH_SIZE = 32
 UPDATE_ACTION_MODEL = 4
 UPDATE_TRAIN_MODEL = 1_000
+GAMMA_DECAY = 1e-3
+GAMMA_MINIMUM = 1e-3
 class Agent:
     def __init__(self, environment_shape, actions_number):
         self.replay_buffer = ReplayBuffer(MEMORY_LENGTH, environment_shape)
         self.previous_state = None
         self.previous_action = None
         self.iteration_counter = 0
-
+        self.actions_number = actions_number
+        self.gamma = 0.9
         # Being trained really often
         self.action_model = Agent.Create_model(environment_shape, actions_number)
 
@@ -33,7 +36,10 @@ class Agent:
 
     def Act(self, environment_state):
         self.previous_state = environment_state
-        self.previous_action = tf.math.argmax(self.action_model(environment_state))
+        if self.gamma > np.random.rand():
+            self.previous_action = tf.math.argmax(self.action_model(environment_state))
+        else:
+            self.previous_action = np.random.randint(0, self.actions_number)
         return self.previous_action
 
     def Train(self):
@@ -45,6 +51,8 @@ class Agent:
             if self.iteration_counter % UPDATE_TRAIN_MODEL == 0:
                 self.train_model.set_weights(self.action_model.get_weights())
         self.iteration_counter += 1
+        if self.gamma > GAMMA_MINIMUM:
+            self.gamma -= GAMMA_DECAY
 
     def Remember(self, next_state, reward, done_flag):
         self.replay_buffer.Remember(self.previous_state, next_state, self.previous_action, reward, done_flag)
