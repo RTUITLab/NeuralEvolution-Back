@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow import keras
-from ReplayBuffer import ReplayBuffer
+from agent.ReplayBuffer import ReplayBuffer
 
 
 MEMORY_LENGTH = 10_000
@@ -10,6 +10,7 @@ UPDATE_ACTION_MODEL = 4
 UPDATE_TRAIN_MODEL = 1_000
 GAMMA_DECAY = 1e-3
 GAMMA_MINIMUM = 1e-3
+DISCOUNT_FACTOR = 0.9
 
 
 class Agent:
@@ -60,8 +61,19 @@ class Agent:
     def train(self):
         if self.iteration_counter % UPDATE_ACTION_MODEL == 0:
             if BATCH_SIZE >= self.replay_buffer.real_length:
-                expirience = self.replay_buffer.getExpirience(BATCH_SIZE)
-                # continue training
+                current_states, future_states, actions, rewards, done_flags = \
+                    self.replay_buffer.get_experience(BATCH_SIZE)
+                current_q_values = self.action_model.predict(current_states)
+                future_q_values = self.train_model.predict(future_states)
+                for i in range(actions.size):
+                    if done_flags[i]:
+                        new_q_value = rewards[i]
+                    else:
+                        max_q_value = np.max(future_q_values)
+                        new_q_value = rewards[i] + DISCOUNT_FACTOR * max_q_value
+                    current_q_values[i][actions[i]] = new_q_value
+                self.action_model.fit(current_states, current_q_values,
+                                      batch_size=BATCH_SIZE, verbose=0, shuffle=False)
 
             if self.iteration_counter % UPDATE_TRAIN_MODEL == 0:
                 self.train_model.set_weights(self.action_model.get_weights())

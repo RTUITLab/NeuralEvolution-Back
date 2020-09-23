@@ -24,7 +24,7 @@ class ReplayBuffer:
         self.real_length += int(self.real_length < ReplayBuffer.max_length)
         self.pointer = (self.pointer + 1) % ReplayBuffer.max_length
 
-    def getExpirience(self, batch_size):
+    def get_experience(self, batch_size):
         batch = np.random.choice(self.real_length, batch_size, replace=False)
         current_states = self.current_states[batch]
         future_states = self.future_states[batch]
