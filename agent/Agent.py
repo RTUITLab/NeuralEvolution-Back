@@ -64,11 +64,11 @@ class Agent:
                 current_states, future_states, actions, rewards, done_flags = \
                     self.replay_buffer.get_experience(BATCH_SIZE)
                 current_q_values = self.action_model.predict(current_states)
-                future_q_values = self.train_model.predict(future_states)
                 for i in range(actions.size):
                     if done_flags[i]:
                         new_q_value = rewards[i]
                     else:
+                        future_q_values = self.train_model.predict(future_states)
                         max_q_value = np.max(future_q_values)
                         new_q_value = rewards[i] + DISCOUNT_FACTOR * max_q_value
                     current_q_values[i][actions[i]] = new_q_value
