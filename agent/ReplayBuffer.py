@@ -31,3 +31,7 @@ class ReplayBuffer:
         rewards = self.rewards[batch]
         done_flags = self.done_flags[batch]
         return current_states, future_states, actions, rewards, done_flags
+
+
+if __name__ == "__main__":
+    pass

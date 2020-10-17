@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ndata.proto\"g\n\x07\x45nvData\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\x0e\n\x06\x66ood_x\x18\x02 \x01(\x02\x12\x0e\n\x06\x66ood_z\x18\x03 \x01(\x02\x12\n\n\x02hp\x18\x04 \x01(\x02\x12\x0f\n\x07satiety\x18\x05 \x01(\x02\x12\x0e\n\x06reward\x18\x06 \x01(\x05\"\x18\n\x06\x41\x63tion\x12\x0e\n\x06\x61\x63tion\x18\x01 \x01(\x05\x32*\n\tLearnBoar\x12\x1d\n\x08SendData\x12\x08.EnvData\x1a\x07.Actionb\x06proto3'
+  serialized_pb=b'\n\ndata.proto\"g\n\x07\x45nvData\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\x0e\n\x06\x66ood_x\x18\x02 \x01(\x02\x12\x0e\n\x06\x66ood_z\x18\x03 \x01(\x02\x12\n\n\x02hp\x18\x04 \x01(\x02\x12\x0f\n\x07satiety\x18\x05 \x01(\x02\x12\x0e\n\x06reward\x18\x06 \x01(\x05\"\x18\n\x06\x41\x63tion\x12\x0e\n\x06\x61\x63tion\x18\x01 \x01(\x05\"3\n\tAgentData\x12\x11\n\tenv_shape\x18\x01 \x01(\x05\x12\x13\n\x0bnum_actions\x18\x02 \x01(\x05\"\x15\n\x07\x41gentId\x12\n\n\x02id\x18\x01 \x01(\x05\x32O\n\tLearnBoar\x12\x1d\n\x08SendData\x12\x08.EnvData\x1a\x07.Action\x12#\n\x0b\x43reateAgent\x12\n.AgentData\x1a\x08.AgentIdb\x06proto3'
 )
 
 
@@ -123,8 +123,81 @@ _ACTION = _descriptor.Descriptor(
   serialized_end=143,
 )
 
+
+_AGENTDATA = _descriptor.Descriptor(
+  name='AgentData',
+  full_name='AgentData',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='env_shape', full_name='AgentData.env_shape', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='num_actions', full_name='AgentData.num_actions', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=145,
+  serialized_end=196,
+)
+
+
+_AGENTID = _descriptor.Descriptor(
+  name='AgentId',
+  full_name='AgentId',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='AgentId.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=198,
+  serialized_end=219,
+)
+
 DESCRIPTOR.message_types_by_name['EnvData'] = _ENVDATA
 DESCRIPTOR.message_types_by_name['Action'] = _ACTION
+DESCRIPTOR.message_types_by_name['AgentData'] = _AGENTDATA
+DESCRIPTOR.message_types_by_name['AgentId'] = _AGENTID
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 EnvData = _reflection.GeneratedProtocolMessageType('EnvData', (_message.Message,), {
@@ -141,6 +214,20 @@ Action = _reflection.GeneratedProtocolMessageType('Action', (_message.Message,),
   })
 _sym_db.RegisterMessage(Action)
 
+AgentData = _reflection.GeneratedProtocolMessageType('AgentData', (_message.Message,), {
+  'DESCRIPTOR' : _AGENTDATA,
+  '__module__' : 'data_pb2'
+  # @@protoc_insertion_point(class_scope:AgentData)
+  })
+_sym_db.RegisterMessage(AgentData)
+
+AgentId = _reflection.GeneratedProtocolMessageType('AgentId', (_message.Message,), {
+  'DESCRIPTOR' : _AGENTID,
+  '__module__' : 'data_pb2'
+  # @@protoc_insertion_point(class_scope:AgentId)
+  })
+_sym_db.RegisterMessage(AgentId)
+
 
 
 _LEARNBOAR = _descriptor.ServiceDescriptor(
@@ -150,8 +237,8 @@ _LEARNBOAR = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=145,
-  serialized_end=187,
+  serialized_start=221,
+  serialized_end=300,
   methods=[
   _descriptor.MethodDescriptor(
     name='SendData',
@@ -163,9 +250,22 @@ _LEARNBOAR = _descriptor.ServiceDescriptor(
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
+  _descriptor.MethodDescriptor(
+    name='CreateAgent',
+    full_name='LearnBoar.CreateAgent',
+    index=1,
+    containing_service=None,
+    input_type=_AGENTDATA,
+    output_type=_AGENTID,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
 ])
 _sym_db.RegisterServiceDescriptor(_LEARNBOAR)
 
 DESCRIPTOR.services_by_name['LearnBoar'] = _LEARNBOAR
 
 # @@protoc_insertion_point(module_scope)
+
+if __name__ == "__main__":
+    pass

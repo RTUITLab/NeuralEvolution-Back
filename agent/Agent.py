@@ -1,7 +1,7 @@
-import tensorflow as tf
 import numpy as np
-from tensorflow import keras
 from agent.ReplayBuffer import ReplayBuffer
+
+from agent import tf, keras
 
 
 MEMORY_LENGTH = 10_000
@@ -42,24 +42,25 @@ class Agent:
 
         actions_number: Count of available actions.
         '''
-        model = keras.models.Sequential()
-        model.add(keras.layers.InputLayer(environment_shape))
-        model.add(keras.layers.Dense(64, activation='relu'))
-        model.add(keras.layers.Dense(64, activation='relu'))
-        model.add(keras.layers.Dense(actions_number, activation="linear"))
+        model = keras.models.Sequential([
+            keras.layers.Dense(64, activation='relu', input_shape=environment_shape),
+            keras.layers.Dense(64, activation='relu'),
+            keras.layers.Dense(actions_number, activation="linear")
+        ])
         model.compile(loss="mse", optimizer=keras.optimizers.Adam(lr=learning_rate))
         return model
 
     def act(self, environment_state):
+        print("Act!")        
         self.previous_state = environment_state
-        if self.gamma > np.random.rand():
-            self.previous_action = tf.math.argmax(self.action_model(environment_state))
+        if self.gamma < np.random.rand():
+            self.previous_action = tf.math.argmax(self.action_model(environment_state)[0])
         else:
             self.previous_action = np.random.randint(0, self.actions_number)
         return self.previous_action
 
     def train(self):
-        if self.iteration_counter % UPDATE_ACTION_MODEL == 0:
+        if self.iteration_counter > BATCH_SIZE and self.iteration_counter % UPDATE_ACTION_MODEL == 0:
             if BATCH_SIZE >= self.replay_buffer.real_length:
                 current_states, future_states, actions, rewards, done_flags = \
                     self.replay_buffer.get_experience(BATCH_SIZE)
@@ -83,3 +84,7 @@ class Agent:
 
     def remember(self, next_state, reward, done_flag):
         self.replay_buffer.remember(self.previous_state, next_state, self.previous_action, reward, done_flag)
+
+
+if __name__ == "__main__":
+    pass
