@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service LearnBoar {
+    rpc SendData(EnvData) returns (Action);
+}
+
+message EnvData {
+    bool isAlive = 1;
+    float food_x = 2;
+    float food_z = 3;
+    float hp = 4; // уровень жизни
+    float satiety = 5; // уровень сытости
+    int32 reward = 6; // наказание или награда
+}
+
+message Action {
+    int32 action = 1;
+}
