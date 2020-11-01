@@ -8,13 +8,17 @@ from concurrent import futures
 
 from agent.Agent import Agent
 
+num_agents = 0
+
 class Servicer(data_pb2_grpc.LearnBoarServicer):
 
     def CreateAgent(self, request, context):
+        global num_agents
+        num_agents += 1
         env_shape = [request.env_shape]
         num_actions = request.num_actions
         self.env_shape = env_shape
-        self.agent = Agent(env_shape, num_actions)
+        self.agent = Agent(num_agents, env_shape, num_actions)
         return data_pb2.AgentId(id=1)
 
 
@@ -35,7 +39,7 @@ class Servicer(data_pb2_grpc.LearnBoarServicer):
 
     
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     data_pb2_grpc.add_LearnBoarServicer_to_server(
         Servicer(),
         server

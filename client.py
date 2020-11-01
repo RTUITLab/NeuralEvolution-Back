@@ -7,7 +7,7 @@ def run():
         stub = data_pb2_grpc.LearnBoarStub(channel)
         response_agent = stub.CreateAgent(data_pb2.AgentData(
             env_shape = int(4),
-            num_actions = int(4)
+            num_actions = int(5)
         ))
         for i in range(20):
             response_action = stub.SendData(data_pb2.EnvData(

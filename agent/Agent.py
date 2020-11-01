@@ -14,7 +14,8 @@ DISCOUNT_FACTOR = 0.9
 
 
 class Agent:
-    def __init__(self, environment_shape, actions_number):
+    def __init__(self, agentId, environment_shape, actions_number):
+        self.id = agentId
         self.replay_buffer = ReplayBuffer(MEMORY_LENGTH, environment_shape)
         self.previous_state = None
         self.previous_action = None
@@ -50,8 +51,7 @@ class Agent:
         model.compile(loss="mse", optimizer=keras.optimizers.Adam(lr=learning_rate))
         return model
 
-    def act(self, environment_state):
-        print("Act!")        
+    def act(self, environment_state):       
         self.previous_state = environment_state
         if self.gamma < np.random.rand():
             self.previous_action = tf.math.argmax(self.action_model(environment_state)[0])
@@ -73,11 +73,12 @@ class Agent:
                         max_q_value = np.max(future_q_values)
                         new_q_value = rewards[i] + DISCOUNT_FACTOR * max_q_value
                     current_q_values[i][actions[i]] = new_q_value
-                self.action_model.fit(current_states, current_q_values,
+                history = self.train_model.fit(current_states, current_q_values,
                                       batch_size=BATCH_SIZE, verbose=0, shuffle=False)
+                print(history.history['loss'][-1])
 
             if self.iteration_counter % UPDATE_TRAIN_MODEL == 0:
-                self.train_model.set_weights(self.action_model.get_weights())
+                self.action_model.set_weights(self.train_model.get_weights())
         self.iteration_counter += 1
         if self.gamma > GAMMA_MINIMUM:
             self.gamma -= GAMMA_DECAY
