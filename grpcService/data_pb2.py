@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ndata.proto\"g\n\x07\x45nvData\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\x0e\n\x06\x66ood_x\x18\x02 \x01(\x02\x12\x0e\n\x06\x66ood_z\x18\x03 \x01(\x02\x12\n\n\x02hp\x18\x04 \x01(\x02\x12\x0f\n\x07satiety\x18\x05 \x01(\x02\x12\x0e\n\x06reward\x18\x06 \x01(\x05\"\x18\n\x06\x41\x63tion\x12\x0e\n\x06\x61\x63tion\x18\x01 \x01(\x05\"3\n\tAgentData\x12\x11\n\tenv_shape\x18\x01 \x01(\x05\x12\x13\n\x0bnum_actions\x18\x02 \x01(\x05\"\x15\n\x07\x41gentId\x12\n\n\x02id\x18\x01 \x01(\x05\x32O\n\tLearnBoar\x12\x1d\n\x08SendData\x12\x08.EnvData\x1a\x07.Action\x12#\n\x0b\x43reateAgent\x12\n.AgentData\x1a\x08.AgentIdb\x06proto3'
+  serialized_pb=b'\n\ndata.proto\"g\n\x07\x45nvData\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\x0e\n\x06\x66ood_x\x18\x02 \x01(\x02\x12\x0e\n\x06\x66ood_z\x18\x03 \x01(\x02\x12\n\n\x02hp\x18\x04 \x01(\x02\x12\x0f\n\x07satiety\x18\x05 \x01(\x02\x12\x0e\n\x06reward\x18\x06 \x01(\x02\"\x18\n\x06\x41\x63tion\x12\x0e\n\x06\x61\x63tion\x18\x01 \x01(\x05\"3\n\tAgentData\x12\x11\n\tenv_shape\x18\x01 \x01(\x05\x12\x13\n\x0bnum_actions\x18\x02 \x01(\x05\"\x15\n\x07\x41gentId\x12\n\n\x02id\x18\x01 \x01(\x05\x32O\n\tLearnBoar\x12\x1d\n\x08SendData\x12\x08.EnvData\x1a\x07.Action\x12#\n\x0b\x43reateAgent\x12\n.AgentData\x1a\x08.AgentIdb\x06proto3'
 )
 
 
@@ -70,8 +70,8 @@ _ENVDATA = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='reward', full_name='EnvData.reward', index=5,
-      number=6, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -266,6 +266,3 @@ _sym_db.RegisterServiceDescriptor(_LEARNBOAR)
 DESCRIPTOR.services_by_name['LearnBoar'] = _LEARNBOAR
 
 # @@protoc_insertion_point(module_scope)
-
-if __name__ == "__main__":
-    pass

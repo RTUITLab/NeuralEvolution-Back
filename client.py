@@ -3,7 +3,7 @@ from grpcService import data_pb2, data_pb2_grpc
 
 
 def run():
-    with grpc.insecure_channel('127.0.0.1:50061') as channel:
+    with grpc.insecure_channel('127.0.0.1:5000') as channel:
         stub = data_pb2_grpc.LearnBoarStub(channel)
         response_agent = stub.CreateAgent(data_pb2.AgentData(
             env_shape = int(4),
@@ -16,7 +16,7 @@ def run():
                 food_z = 0.0,
                 hp = 100.0,
                 satiety = 36.0,
-                reward = int(1)
+                reward = 1.
             ))
             print(i)
 

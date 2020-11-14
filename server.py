@@ -44,7 +44,7 @@ def serve():
         Servicer(),
         server
     )
-    server.add_insecure_port('127.0.0.1:50061')
+    server.add_insecure_port('127.0.0.1:5000')
     server.start()
     server.wait_for_termination()
 

@@ -11,7 +11,7 @@ message EnvData {
     float food_z = 3;
     float hp = 4; // уровень жизни
     float satiety = 5; // уровень сытости
-    int32 reward = 6; // наказание или награда
+    float reward = 6; // наказание или награда
 }
 
 message Action {

@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from . import data_pb2 as data__pb2
+from grpcService import data_pb2 as data__pb2
 
 
 class LearnBoarStub(object):
@@ -97,7 +97,3 @@ class LearnBoar(object):
             data__pb2.AgentId.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-
-if __name__ == "__main__":
-    pass
