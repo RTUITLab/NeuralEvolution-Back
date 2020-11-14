@@ -23,6 +23,8 @@ class Servicer(data_pb2_grpc.LearnBoarServicer):
 
 
     def SendData(self, request, context):
+        print(self.agent.gamma)
+
         env_state = np.empty(self.env_shape)
         env_state[0] = request.food_x
         env_state[1] = request.food_z

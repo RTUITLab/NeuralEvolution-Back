@@ -8,7 +8,7 @@ MEMORY_LENGTH = 10_000
 BATCH_SIZE = 32
 UPDATE_ACTION_MODEL = 4
 UPDATE_TRAIN_MODEL = 1_000
-GAMMA_DECAY = 1e-3
+GAMMA_DECAY = 1e-4
 GAMMA_MINIMUM = 1e-3
 DISCOUNT_FACTOR = 0.9
 
@@ -44,8 +44,9 @@ class Agent:
         actions_number: Count of available actions.
         '''
         model = keras.models.Sequential([
-            keras.layers.Dense(64, activation='relu', input_shape=environment_shape),
-            keras.layers.Dense(64, activation='relu'),
+            keras.layers.Dense(20, activation='relu', input_shape=environment_shape),
+            keras.layers.Dense(10, activation='relu'),
+            keras.layers.Dropout(rate=0.3),
             keras.layers.Dense(actions_number, activation="linear")
         ])
         model.compile(loss="mse", optimizer=keras.optimizers.Adam(lr=learning_rate))
@@ -73,12 +74,11 @@ class Agent:
                         max_q_value = np.max(future_q_values)
                         new_q_value = rewards[i] + DISCOUNT_FACTOR * max_q_value
                     current_q_values[i][actions[i]] = new_q_value
-                history = self.train_model.fit(current_states, current_q_values,
+                self.action_model.fit(current_states, current_q_values,
                                       batch_size=BATCH_SIZE, verbose=0, shuffle=False)
-                print(history.history['loss'][-1])
 
             if self.iteration_counter % UPDATE_TRAIN_MODEL == 0:
-                self.action_model.set_weights(self.train_model.get_weights())
+                self.train_model.set_weights(self.action_model.get_weights())
         self.iteration_counter += 1
         if self.gamma > GAMMA_MINIMUM:
             self.gamma -= GAMMA_DECAY
