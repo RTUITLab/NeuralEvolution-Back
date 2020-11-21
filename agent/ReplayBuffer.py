@@ -11,7 +11,7 @@ class ReplayBuffer:
         self.future_states = np.empty((length, *environment_shape), dtype=np.float32)
         self.actions = np.empty(length, dtype=np.int32)
         self.rewards = np.empty(length, dtype=np.float32)
-        self.done_flags = np.empty(length, dtype=np.bool)
+        self.done_flags = np.empty(length, dtype=np.int32)
         pass
 
     def remember(self, current_state, future_state, action, reward, done_flag):
