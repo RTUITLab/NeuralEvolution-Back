@@ -44,9 +44,8 @@ class Agent:
         actions_number: Count of available actions.
         '''
         model = keras.models.Sequential([
-            keras.layers.Dense(20, activation='relu', input_shape=environment_shape),
-            keras.layers.Dense(10, activation='relu'),
-            #keras.layers.Dropout(rate=0.3),
+            keras.layers.Dense(64, activation='relu', input_shape=environment_shape),
+            keras.layers.Dense(64, activation='relu'),
             keras.layers.Dense(actions_number, activation="linear")
         ])
         model.compile(loss="mse", optimizer=keras.optimizers.Adam(lr=learning_rate))
