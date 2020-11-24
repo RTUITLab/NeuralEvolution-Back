@@ -78,7 +78,7 @@ class Agent:
 
     def remember(self, next_state, reward, done_flag):
         self.replay_buffer.remember(self.previous_state, next_state,
-                                    self.previous_action, reward, int(not done_flag))
+                                    self.previous_action, reward, int(done_flag))
 
 
 if __name__ == "__main__":

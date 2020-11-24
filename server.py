@@ -23,8 +23,6 @@ class Servicer(data_pb2_grpc.LearnBoarServicer):
 
 
     def SendData(self, request, context):
-        print(self.agent.gamma)
-
         env_state = np.empty(self.env_shape)
         env_state[0] = request.food_x
         env_state[1] = request.food_z
@@ -34,7 +32,7 @@ class Servicer(data_pb2_grpc.LearnBoarServicer):
         env_state = np.array([env_state])
 
         if self.agent.previous_action != None:
-            self.agent.remember(env_state, request.reward, not request.isAlive)
+            self.agent.remember(env_state, request.reward, request.isAlive)
             self.agent.train()
 
         return data_pb2.Action(action=int(self.agent.act(env_state)))
