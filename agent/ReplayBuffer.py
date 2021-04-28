@@ -24,12 +24,14 @@ class ReplayBuffer:
         self.pointer = (self.pointer + 1) % self.max_length
 
     def get_experience(self, batch_size):
-        batch = np.random.choice(self.real_length, batch_size, replace=False)
-        current_states = self.current_states[batch]
-        future_states = self.future_states[batch]
-        actions = self.actions[batch]
-        rewards = self.rewards[batch]
-        done_flags = self.done_flags[batch]
+        # batch = np.random.choice(self.real_length, batch_size, replace=False)
+        start_index = np.random.choice(self.real_length, 1)[0]
+        end_index = start_index + batch_size
+        current_states = self.current_states[start_index:end_index]
+        future_states = self.future_states[start_index:end_index]
+        actions = self.actions[start_index:end_index]
+        rewards = self.rewards[start_index:end_index]
+        done_flags = self.done_flags[start_index:end_index]
         return current_states, future_states, actions, rewards, done_flags
 
 
